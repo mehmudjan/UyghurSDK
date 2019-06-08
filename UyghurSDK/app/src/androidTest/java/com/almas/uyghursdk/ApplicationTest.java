@@ -1,4 +1,4 @@
-package top.talant.uyghursdk;
+package com.almas.uyghursdk;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

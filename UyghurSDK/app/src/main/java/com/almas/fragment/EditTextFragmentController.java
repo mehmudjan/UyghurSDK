@@ -1,31 +1,39 @@
 package com.almas.fragment;
 
-
-
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.almas.fragment.TextViewerControllerFragment.ConfirmClickedListener;
 import com.almas.tools.ML;
 import com.almas.uyghursdk.AppConfig;
 import com.almas.uyghursdk.ColorPickerDialog;
 import com.almas.uyghursdk.R;
+import com.almas.uyghursdk.UserInputActivity;
+import com.almas.view.UySyllabelTextView;
 
-public class TextViewerControllerFragment extends Fragment {
+
+
+@SuppressLint("ValidFragment")
+public class EditTextFragmentController extends Fragment{
+
 	private ConfirmClickedListener confirmClickedListener;
 	private SeekBar seekBarTextSize;
 	private TextView textViewTextSize;
@@ -33,12 +41,13 @@ public class TextViewerControllerFragment extends Fragment {
 	private Spinner spinnerFont;
 	private SeekBar seekBarLineSpace;
 	private TextView textViewLineSpace;
-	private SeekBar seekBarFistLine;
-	private TextView textViewFirstLine;
-	private CheckBox checkBoxFirstLine;
 	protected ColorPickerDialog dialog;
-	private View imageViewTextViewerColor;
-	public TextViewerControllerFragment(ConfirmClickedListener listener) {
+	private ImageView imageViewEditTextColor;
+	private ImageView imageViewEditTextHintColor;
+	private UySyllabelTextView textViewEnterText;
+	private UySyllabelTextView textViewSpaceText;
+
+	public EditTextFragmentController(ConfirmClickedListener listener) {
 		// TODO Auto-generated constructor stub
 		this.confirmClickedListener = listener;
 	}
@@ -47,7 +56,7 @@ public class TextViewerControllerFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		
-		 viewMain = inflater.inflate(R.layout.fragment_text_viewer_controller, null);
+		 viewMain = inflater.inflate(R.layout.fragment_edit_text_controller, null);
 		 viewMain.findViewById(R.id.buttonConfirm).setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -124,42 +133,6 @@ public class TextViewerControllerFragment extends Fragment {
 			}
 		});
 		textViewLineSpace = (TextView)viewMain.findViewById(R.id.textViewLineSpace);
-		
-		
-		//首行缩进
-		seekBarFistLine = (SeekBar) viewMain.findViewById(R.id.seekBarFistLine);
-		seekBarFistLine.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				AppConfig.firstLineIndentWidth = seekBar.getProgress();
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				// TODO Auto-generated method stub
-				textViewFirstLine.setText(""+seekBar.getProgress());
-			}
-		});
-		textViewFirstLine = (TextView)viewMain.findViewById(R.id.textViewFistLine);
-		checkBoxFirstLine = (CheckBox)viewMain.findViewById(R.id.checkBoxFistLine);
-		checkBoxFirstLine.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				AppConfig.enableFistLine = checkBoxFirstLine.isChecked();
-				updateUI();
-			}
-		});
 		Button btnColor = (Button) viewMain.findViewById(R.id.buttonTextColor);
 		btnColor.setOnClickListener(new OnClickListener() {
 			
@@ -167,7 +140,7 @@ public class TextViewerControllerFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 			    dialog = new ColorPickerDialog(getActivity(), R.style.ColorDialogTheme,AppConfig.textColor,
-			            "",
+			            "okokko",
 			            new ColorPickerDialog.OnColorChangedListener() {
 			        @Override
 			        public void colorChanged(int color) {
@@ -178,9 +151,60 @@ public class TextViewerControllerFragment extends Fragment {
 			    dialog.show(); 
 			}
 		});
-		imageViewTextViewerColor = viewMain.findViewById(R.id.imageViewTextViewerColor);
+		
+		btnColor = (Button) viewMain.findViewById(R.id.buttonTextHintColor);
+		btnColor.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+			    dialog = new ColorPickerDialog(getActivity(), R.style.ColorDialogTheme,AppConfig.textColor,
+			            "okokko",
+			            new ColorPickerDialog.OnColorChangedListener() {
+			        @Override
+			        public void colorChanged(int color) {
+			        	AppConfig.textHintColor = color;
+			        	updateUI();
+			        }
+			    });			   
+			    dialog.show(); 
+			}
+		});
+		
+		imageViewEditTextColor = (ImageView)viewMain.findViewById(R.id.imageViewEditTextColor);
+		imageViewEditTextHintColor = (ImageView)viewMain.findViewById(R.id.imageViewEditTextHintColor);
+		
+		btnColor = (Button)viewMain.findViewById(R.id.buttonEnterText);
+		btnColor.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), UserInputActivity.class);
+				intent.putExtra("for", "enter");
+				startActivity(intent);
+			}
+		});
+		textViewEnterText = (UySyllabelTextView)viewMain.findViewById(R.id.textViewEnterText);
+		btnColor = (Button)viewMain.findViewById(R.id.buttonSpaceText);
+		btnColor.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), UserInputActivity.class);
+				intent.putExtra("for", "space");
+				startActivity(intent);
+			}
+		});
+		textViewSpaceText = (UySyllabelTextView)viewMain.findViewById(R.id.textViewSpaceText);
+		
+		
+		
 		
 		updateUI();
+		
 		return viewMain;
 	}
 	@Override
@@ -198,16 +222,20 @@ public class TextViewerControllerFragment extends Fragment {
 		textViewLineSpace.setText(""+AppConfig.lineSpace);
 		seekBarLineSpace.setProgress((int) ((AppConfig.lineSpace*10)-10));
 		
-		textViewFirstLine.setText(""+AppConfig.firstLineIndentWidth);
-		seekBarFistLine.setProgress(AppConfig.firstLineIndentWidth);
+		imageViewEditTextColor.setBackgroundColor(AppConfig.textColor);
+		imageViewEditTextHintColor.setBackgroundColor(AppConfig.textHintColor);
 		
-		checkBoxFirstLine.setChecked(AppConfig.enableFistLine);
-		if(AppConfig.enableFistLine){
-			seekBarFistLine.setEnabled(true);
+		if(AppConfig.stringEnterText!=null&&AppConfig.stringEnterText.length()>0){
+			textViewEnterText.setText(AppConfig.stringEnterText);
 		}else{
-			seekBarFistLine.setEnabled(false);
+			textViewEnterText.setText("رەسىملىك ھالەت");
 		}
-		imageViewTextViewerColor.setBackgroundColor(AppConfig.textColor);
+		if(AppConfig.stringSpaceText!=null&&AppConfig.stringSpaceText.length()>0){
+			textViewSpaceText.setText(AppConfig.stringSpaceText);
+		}else{
+			textViewSpaceText.setText("");
+		}
+		
 	}
 	public ConfirmClickedListener getConfirmClickedListener() {
 		return confirmClickedListener;
@@ -218,8 +246,5 @@ public class TextViewerControllerFragment extends Fragment {
 	public interface ConfirmClickedListener{
 		public void onConfirmClicked();
 	}
-	
-	
-
 
 }

@@ -1,7 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:UyghurTextView="http://schemas.android.com/apk/res/com.almas.uyghursdk" >
+    xmlns:UyghurTextView="http://schemas.android.com/apk/res/com.almas.uyghursdk"
+	tools:ignore="ResAuto">
 	<RelativeLayout android:layout_width="fill_parent"
         android:layout_height="50dp"
          android:background="#333"

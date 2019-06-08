@@ -2,6 +2,7 @@ package com.almas.fragment;
 
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.almas.uyghursdk.AppConfig;
 import com.almas.uyghursdk.R;
 import com.almas.view.UySyllabelTextView;
 
+@SuppressLint("ValidFragment")
 public class TextViewerFragment extends Fragment {
 
 	private View mainView;
