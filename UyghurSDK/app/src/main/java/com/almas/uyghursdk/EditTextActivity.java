@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -15,6 +16,8 @@ public class EditTextActivity extends FragmentActivity implements ConfirmClicked
 
 	private EditTextFragmentController editTextFragmentController;
 	private EditTextFragment editTextFragment;
+	private boolean isSettingMode = true;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,15 +29,15 @@ public class EditTextActivity extends FragmentActivity implements ConfirmClicked
 		openEditTextFragment();
 	}
 
-
 	private void openEditTextFragment() {
-		// TODO Auto-generated method stub
-		if(isSettingMode==true){
+		if(isSettingMode){
 			FragmentManager fm =  getSupportFragmentManager();  
 	        FragmentTransaction transaction = fm.beginTransaction();  
 	        transaction.replace(R.id.frameLayout, editTextFragment);  
 	        transaction.commit();
 	        isSettingMode = false;
+		} else {
+			Log.w("", "trying to open edit text fragment outside settingMode, ignoring this action ");
 		}
 	}
 	
@@ -42,33 +45,29 @@ public class EditTextActivity extends FragmentActivity implements ConfirmClicked
 		if(isSettingMode)openEditTextFragment();
 		else openSettingFragment();
 	}
-	private boolean isSettingMode = true;
+
 	private void openSettingFragment() {
-		// TODO Auto-generated method stub
-		if(isSettingMode==false){
+		if(!isSettingMode){
 			FragmentManager fm =  getSupportFragmentManager();  
 	        FragmentTransaction transaction = fm.beginTransaction();  
 	        transaction.replace(R.id.frameLayout, editTextFragmentController);  
 	        transaction.commit();
 	        isSettingMode = true;
+		} else {
+			Log.w("", "trying to open edit text fragment while already in settingMode, ignoring this action");
 		}
 	}
 	
 	public void onReturnClicked(View v){
-		if(isSettingMode==true){
-			this.openEditTextFragment();
-		}else{
-			this.finish();
+		if(isSettingMode) {
+			openEditTextFragment();
+		} else {
+			finish();
 		}
-		
 	}
-
 
 	@Override
 	public void onConfirmClicked() {
-		// TODO Auto-generated method stub
 		openEditTextFragment();
 	}
-	
-	
 }
