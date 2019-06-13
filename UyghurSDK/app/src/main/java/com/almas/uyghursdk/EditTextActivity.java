@@ -54,7 +54,7 @@ public class EditTextActivity extends FragmentActivity implements ConfirmClicked
 		}
 	}
 	
-	public void onRetrunClicked(View v){
+	public void onReturnClicked(View v){
 		if(isSettingMode==true){
 			this.openEditTextFragment();
 		}else{
