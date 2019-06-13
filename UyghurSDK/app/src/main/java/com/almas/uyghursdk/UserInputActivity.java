@@ -25,6 +25,7 @@ public class UserInputActivity extends Activity implements OnKeyboardClickedList
 	private UyghurKeyboardView keyboardView;
 	private KeyboardUtil keyboardUtil;
 	private boolean isForSpace;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,60 +36,57 @@ public class UserInputActivity extends Activity implements OnKeyboardClickedList
 		 keyboardUtil = new KeyboardUtil(this, editText, keyboardView);
 		 editText.setKeyboardUtil(keyboardUtil);
 		 String action = getIntent().getStringExtra("for");
+
 		 if(action!=null)
 			 isForSpace = action.equals("space");
 		 
-		 if(isForSpace){
+		 if(isForSpace) {
 			 if(TextUtils.isEmpty(AppConfig.stringSpaceText)==false)
 				 editText.setText(AppConfig.stringSpaceText);
-		 }else{
+		 } else {
 			 if(TextUtils.isEmpty(AppConfig.stringEnterText)==false)
 				 editText.setText(AppConfig.stringEnterText);
 		 }
+
 		 editText.setOnKeyboardClickedListener(this);
-		 if(AppConfig.stringEnterText!=null&&AppConfig.stringEnterText.length()>0){
+
+		 if(AppConfig.stringEnterText!=null&&AppConfig.stringEnterText.length()>0) {
 				keyboardUtil.setEnterText(AppConfig.stringEnterText);
-		}else{
+		} else {
 			keyboardUtil.setEnterText(null);
 		}
-		if(AppConfig.stringSpaceText!=null&&AppConfig.stringSpaceText.length()>0){
+
+		if(AppConfig.stringSpaceText!=null&&AppConfig.stringSpaceText.length()>0) {
 			keyboardUtil.setSpaceIconText(AppConfig.stringSpaceText);
-		}else{
+		} else {
 			keyboardUtil.setSpaceIconText(null);
 		}
 	}
-	public void onRetrunClicked(View v){
+
+	public void onReturnClicked(View v){
 		this.finish();
 	}
+
 	@Override
 	public void onTextChanged() {
-		// TODO Auto-generated method stub
-		
 	}
+
 	@Override
 	public void onEnterClicked() {
-		// TODO Auto-generated method stub
-
 		this.keyboardUtil.hideKeyboard();
-		if(isForSpace){
+
+		if(isForSpace) {
 			AppConfig.stringSpaceText = editText.getText();
-		}else{
+		} else {
 			AppConfig.stringEnterText = editText.getText();
 		}
+
 		showToast();
-		Handler handler = new Handler(){
-			@Override
-			public void handleMessage(Message msg) {
-				// TODO Auto-generated method stub
-				super.handleMessage(msg);
-				UserInputActivity.this.finish();
-			}
-		};
+		final Handler handler = new MessageHandler();
 		handler.sendEmptyMessageDelayed(1, 1000);
 	}
 	
 	private void showToast() {
-		// TODO Auto-generated method stub
         Toast toast = new Toast(this);  
         toast.setGravity(Gravity.BOTTOM, 0, DensityUtil.dip2px(this, 20));  
         toast.setDuration(Toast.LENGTH_LONG);
@@ -101,5 +99,13 @@ public class UserInputActivity extends Activity implements OnKeyboardClickedList
         textView.setText("ئۇتۇقلۇق بولدى");
         toast.setView(textView);  
         toast.show();
+	}
+
+	private class MessageHandler extends Handler{
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			finish();
+		}
 	}
 }

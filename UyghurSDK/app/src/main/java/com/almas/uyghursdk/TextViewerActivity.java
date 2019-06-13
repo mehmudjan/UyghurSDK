@@ -97,7 +97,7 @@ public class TextViewerActivity extends FragmentActivity implements ConfirmClick
         toast.setView(textView);  
         toast.show();
 	}
-	public void onRetrunClicked(View v){
+	public void onReturnClicked(View v){
 		if(isSettingMode==true){
 			this.openTextFragment();
 		}else{

@@ -13,7 +13,7 @@
 		    android:background="@drawable/nav_menu_xml"
 		    android:layout_alignParentLeft="true"
 		    android:layout_centerVertical="true"
-		    android:onClick="onRetrunClicked"/>
+		    android:onClick="onReturnClicked"/>
         <com.almas.view.UySyllabelTextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

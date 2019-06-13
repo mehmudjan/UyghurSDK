@@ -11,7 +11,7 @@ import com.almas.view.UySyllabelTextView;
 
 public class HomeAdapter extends BaseAdapter implements ListAdapter {
 
-	private String[] title={"ئۇيغۇرچە","Engilish","كىرگۈزگۈچ"};
+	private String[] title={"ئۇيغۇرچە","English","كىرگۈزگۈچ"};
 	private LayoutInflater inflater;
 	public HomeAdapter(Context context) {
 		// TODO Auto-generated constructor stub

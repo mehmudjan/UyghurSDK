@@ -22,12 +22,12 @@ public class EditTextFragment extends Fragment {
 	private KeyboardUtil keyboardUtil;
 	private String text;
 	public EditTextFragment() {
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater,
-			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+							 @Nullable ViewGroup container,
+							 @Nullable Bundle savedInstanceState) {
+
 		this.viewMain = inflater.inflate(R.layout.fragment_edit_text, null);
 		editText = (UyEditText) viewMain.findViewById(R.id.uyEditText);
 		keyboardView = (UyghurKeyboardView)viewMain.findViewById(R.id.keyboard_view);
@@ -41,19 +41,16 @@ public class EditTextFragment extends Fragment {
 	}
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		updateUI();
 
 	}
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		
 	}
 	private void updateUI() {
-		// TODO Auto-generated method stub
 		editText.setTextSize(DensityUtil.dip2px(getActivity(), AppConfig.textSize));
 		editText.setPaintFontName(AppConfig.fontName[AppConfig.fontIndex]);
 		editText.setLineSpaceMutliUy(AppConfig.lineSpace);
@@ -74,12 +71,10 @@ public class EditTextFragment extends Fragment {
 	}
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
 	}
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
 		super.onDestroyView();
 		if(editText!=null){
 			this.text = editText.getText();
