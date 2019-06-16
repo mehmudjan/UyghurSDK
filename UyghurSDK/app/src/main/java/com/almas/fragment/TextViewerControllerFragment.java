@@ -41,31 +41,27 @@ public class TextViewerControllerFragment extends Fragment {
 	protected ColorPickerDialog dialog;
 	private View imageViewTextViewerColor;
 	public TextViewerControllerFragment(ConfirmClickedListener listener) {
-		// TODO Auto-generated constructor stub
 		this.confirmClickedListener = listener;
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		
 		 viewMain = inflater.inflate(R.layout.fragment_text_viewer_controller, null);
 		 viewMain.findViewById(R.id.buttonConfirm).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if(confirmClickedListener!=null) confirmClickedListener.onConfirmClicked();
 			}
 		});
 		 
 		 //字体的大小
-		seekBarTextSize = (SeekBar) viewMain.findViewById(R.id.seekBar1);
+		seekBarTextSize = viewMain.findViewById(R.id.seekBar1);
 		seekBarTextSize.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				AppConfig.textSize = seekBar.getProgress();
 			}
 			
@@ -78,21 +74,19 @@ public class TextViewerControllerFragment extends Fragment {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
 				textViewTextSize.setText(""+progress);
 			}
 		});
-		textViewTextSize = (TextView)viewMain.findViewById(R.id.textView1);
+		textViewTextSize = viewMain.findViewById(R.id.textView1);
 		
 		//字体的选择
-		spinnerFont = (Spinner)viewMain.findViewById(R.id.spinner);
-		spinnerFont.setAdapter(new FontAdapter((Context)getActivity(),AppConfig.fontName));
+		spinnerFont = viewMain.findViewById(R.id.spinner);
+		spinnerFont.setAdapter(new FontAdapter(getActivity(),AppConfig.fontName));
 		spinnerFont.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				AppConfig.fontIndex = position;
 			}
 
@@ -103,12 +97,11 @@ public class TextViewerControllerFragment extends Fragment {
 			}
 		});
 		//行间距
-		seekBarLineSpace = (SeekBar) viewMain.findViewById(R.id.seekBarLineSpace);
+		seekBarLineSpace = viewMain.findViewById(R.id.seekBarLineSpace);
 		seekBarLineSpace.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				AppConfig.lineSpace = (float)(seekBar.getProgress()+10)/10.0f;
 			}
 			
@@ -121,20 +114,18 @@ public class TextViewerControllerFragment extends Fragment {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
 				textViewLineSpace.setText(""+(float)(seekBar.getProgress()+10)/10.0f);
 			}
 		});
-		textViewLineSpace = (TextView)viewMain.findViewById(R.id.textViewLineSpace);
+		textViewLineSpace = viewMain.findViewById(R.id.textViewLineSpace);
 		
 		
 		//首行缩进
-		seekBarFistLine = (SeekBar) viewMain.findViewById(R.id.seekBarFistLine);
+		seekBarFistLine = viewMain.findViewById(R.id.seekBarFistLine);
 		seekBarFistLine.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				AppConfig.firstLineIndentWidth = seekBar.getProgress();
 			}
 			
@@ -147,27 +138,24 @@ public class TextViewerControllerFragment extends Fragment {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
 				textViewFirstLine.setText(""+seekBar.getProgress());
 			}
 		});
-		textViewFirstLine = (TextView)viewMain.findViewById(R.id.textViewFistLine);
-		checkBoxFirstLine = (CheckBox)viewMain.findViewById(R.id.checkBoxFistLine);
+		textViewFirstLine = viewMain.findViewById(R.id.textViewFistLine);
+		checkBoxFirstLine = viewMain.findViewById(R.id.checkBoxFistLine);
 		checkBoxFirstLine.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				AppConfig.enableFistLine = checkBoxFirstLine.isChecked();
 				updateUI();
 			}
 		});
-		Button btnColor = (Button) viewMain.findViewById(R.id.buttonTextColor);
+		Button btnColor = viewMain.findViewById(R.id.buttonTextColor);
 		btnColor.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 			    dialog = new ColorPickerDialog(getActivity(), R.style.ColorDialogTheme,AppConfig.textColor,
 			            "",
 			            new ColorPickerDialog.OnColorChangedListener() {
@@ -187,12 +175,10 @@ public class TextViewerControllerFragment extends Fragment {
 	}
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		updateUI();
 	}
 	private void updateUI() {
-		// TODO Auto-generated method stub
 		textViewTextSize.setText(""+AppConfig.textSize);
 		seekBarTextSize.setProgress(AppConfig.textSize);
 		spinnerFont.setSelection(AppConfig.fontIndex,true);
@@ -204,9 +190,9 @@ public class TextViewerControllerFragment extends Fragment {
 		seekBarFistLine.setProgress(AppConfig.firstLineIndentWidth);
 		
 		checkBoxFirstLine.setChecked(AppConfig.enableFistLine);
-		if(AppConfig.enableFistLine){
+		if(AppConfig.enableFistLine) {
 			seekBarFistLine.setEnabled(true);
-		}else{
+		} else {
 			seekBarFistLine.setEnabled(false);
 		}
 		imageViewTextViewerColor.setBackgroundColor(AppConfig.textColor);
@@ -218,10 +204,6 @@ public class TextViewerControllerFragment extends Fragment {
 		this.confirmClickedListener = confirmClickedListener;
 	}
 	public interface ConfirmClickedListener{
-		public void onConfirmClicked();
+		void onConfirmClicked();
 	}
-	
-	
-
-
 }

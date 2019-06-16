@@ -21,32 +21,34 @@ public class TextViewerActivity extends FragmentActivity implements ConfirmClick
 	private TextViewerFragment textViewerFragment;
 	private TextViewerControllerFragment controllerFragment;
 	private boolean isUyghurLetters;
+	private boolean isSettingMode = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_text_viewer);
-		if(getIntent().getStringExtra("isUyghur")!=null){
+
+		if(getIntent().getStringExtra("isUyghur")!=null) {
 			isUyghurLetters = getIntent().getStringExtra("isUyghur").equals("YES");
-		}else{
+		} else {
 			isUyghurLetters = true;
 		}
 		
-		if(isUyghurLetters){
+		if(isUyghurLetters) {
 			textViewerFragment = new TextViewerFragment(this,R.string.test5,true);
 			findViewById(R.id.selaven).setVisibility(View.VISIBLE);
-		}else{
+		} else {
 			textViewerFragment = new TextViewerFragment(this,R.string.test3,false);
 			findViewById(R.id.selaven).setVisibility(View.GONE);
 		}
+
 		controllerFragment = new  TextViewerControllerFragment(this);
 		openTextFragment();
 	}
 
 	private void openTextFragment() {
-		// TODO Auto-generated method stub
-		if(isSettingMode==true){
+		if(isSettingMode) {
 			FragmentManager fm =  getSupportFragmentManager();  
 	        FragmentTransaction transaction = fm.beginTransaction();  
 	        transaction.replace(R.id.frameLayout, textViewerFragment);  
@@ -59,11 +61,9 @@ public class TextViewerActivity extends FragmentActivity implements ConfirmClick
 		if(isSettingMode)openTextFragment();
 		else openSettingFragment();
 	}
-	private boolean isSettingMode = true;
-	private ColorPickerDialog dialog;
+
 	private void openSettingFragment() {
-		// TODO Auto-generated method stub
-		if(isSettingMode==false){
+		if(!isSettingMode){
 			FragmentManager fm =  getSupportFragmentManager();  
 	        FragmentTransaction transaction = fm.beginTransaction();  
 	        transaction.replace(R.id.frameLayout, controllerFragment);  
@@ -73,17 +73,17 @@ public class TextViewerActivity extends FragmentActivity implements ConfirmClick
 	}
 	@Override
 	public void onConfirmClicked() {
-		// TODO Auto-generated method stub
 		openTextFragment();
 	}
-	public void onSelavenClicked(View v){
-		if(textViewerFragment!=null&&isSettingMode==false){
+
+	public void onCyrillicClicked(View v){
+		if(textViewerFragment!=null&& !isSettingMode){
 			textViewerFragment.switchLanguage();
 			showToast();
 		}
 	}
+
 	private void showToast() {
-		// TODO Auto-generated method stub
         Toast toast = new Toast(this);  
         toast.setGravity(Gravity.BOTTOM, 0, DensityUtil.dip2px(this, 20));  
         toast.setDuration(Toast.LENGTH_LONG);
@@ -97,17 +97,17 @@ public class TextViewerActivity extends FragmentActivity implements ConfirmClick
         toast.setView(textView);  
         toast.show();
 	}
+
 	public void onReturnClicked(View v){
-		if(isSettingMode==true){
+		if(isSettingMode) {
 			this.openTextFragment();
-		}else{
+		} else {
 			this.finish();
 		}
 		
 	}
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		textViewerFragment = null;
 		controllerFragment = null;

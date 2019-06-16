@@ -41,7 +41,7 @@
 		    android:layout_toLeftOf="@+id/setting"
 		    android:layout_centerVertical="true"
 		    android:layout_marginLeft="0dp"
-		    android:onClick="onSelavenClicked"
+		    android:onClick="onCyrillicClicked"
 		    android:id="@+id/selaven"
 		    />
     </RelativeLayout>
